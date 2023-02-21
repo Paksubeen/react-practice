@@ -9,13 +9,13 @@ const ListContainer = styled.ul`
   width: 40rem;
 `;
 
-function Todos(props: { items: Todo[] }) {
-  const { items } = props;
+function Todos(props: { items: Todo[]; onRemoveTodo: (id: string) => void }) {
+  const { items, onRemoveTodo } = props;
 
   return (
     <ListContainer>
       {items.map(item => (
-        <TodoItem item={item} />
+        <TodoItem item={item} key={item.id} onRemoveTodo={onRemoveTodo} />
       ))}
     </ListContainer>
   );

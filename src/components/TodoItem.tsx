@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import Todo from '../models/todo';
 
@@ -8,10 +9,14 @@ const ItemContainer = styled.li`
   background-color: #f7f5ef;
 `;
 
-function TodoItem(props: { item: Todo }) {
-  const { item } = props;
+function TodoItem(props: { item: Todo; onRemoveTodo: (id: string) => void }) {
+  const { item, onRemoveTodo } = props;
 
-  return <ItemContainer key={item.id}>{item.text}</ItemContainer>;
+  return (
+    <ItemContainer onClick={() => onRemoveTodo(item.id)}>
+      {item.text}
+    </ItemContainer>
+  );
 }
 
 export default TodoItem;
