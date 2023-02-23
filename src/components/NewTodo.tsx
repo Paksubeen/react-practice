@@ -1,5 +1,35 @@
+import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
-import React, { useRef } from 'react';
+import { TodosContext } from '../store/todos-context';
+
+function NewTodo() {
+  const todosCtx = useContext(TodosContext);
+  const { addTodo } = todosCtx;
+
+  const todoTextInputRef = useRef<HTMLInputElement>(null);
+
+  const submitHandler = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    const enteredText = todoTextInputRef.current!.value;
+
+    if (enteredText.trim().length === 0) {
+      return;
+    }
+
+    addTodo(enteredText);
+  };
+
+  return (
+    <FormContainer onSubmit={submitHandler}>
+      <label htmlFor="text">
+        Todo text
+        <input type="text" id="text" ref={todoTextInputRef} />
+      </label>
+      <button type="submit">Add Todo</button>
+    </FormContainer>
+  );
+}
 
 const FormContainer = styled.form`
   list-style: none;
@@ -40,32 +70,5 @@ const FormContainer = styled.form`
     border-color: #ebc002;
   }
 `;
-
-function NewTodo(props: { onAddTodo: (text: string) => void }) {
-  const { onAddTodo } = props;
-  const todoTextInputRef = useRef<HTMLInputElement>(null);
-
-  const submitHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-
-    const enteredText = todoTextInputRef.current!.value;
-
-    if (enteredText.trim().length === 0) {
-      return;
-    }
-
-    onAddTodo(enteredText);
-  };
-
-  return (
-    <FormContainer onSubmit={submitHandler}>
-      <label htmlFor="text">
-        Todo text
-        <input type="text" id="text" ref={todoTextInputRef} />
-      </label>
-      <button type="submit">Add Todo</button>
-    </FormContainer>
-  );
-}
 
 export default NewTodo;

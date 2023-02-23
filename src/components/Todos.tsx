@@ -1,6 +1,20 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
-import Todo from '../models/todo';
 import TodoItem from './TodoItem';
+import { TodosContext } from '../store/todos-context';
+
+function Todos() {
+  const todosCtx = useContext(TodosContext);
+  const { items, removeTodo } = todosCtx;
+
+  return (
+    <ListContainer>
+      {items.map(item => (
+        <TodoItem item={item} key={item.id} onRemoveTodo={removeTodo} />
+      ))}
+    </ListContainer>
+  );
+}
 
 const ListContainer = styled.ul`
   list-style: none;
@@ -8,17 +22,5 @@ const ListContainer = styled.ul`
   padding: 0;
   width: 40rem;
 `;
-
-function Todos(props: { items: Todo[]; onRemoveTodo: (id: string) => void }) {
-  const { items, onRemoveTodo } = props;
-
-  return (
-    <ListContainer>
-      {items.map(item => (
-        <TodoItem item={item} key={item.id} onRemoveTodo={onRemoveTodo} />
-      ))}
-    </ListContainer>
-  );
-}
 
 export default Todos;
